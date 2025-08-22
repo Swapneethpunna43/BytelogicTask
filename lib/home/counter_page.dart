@@ -1,3 +1,5 @@
+import 'package:counter_app/auth/login_page.dart';
+import 'package:counter_app/providers/auth_provider.dart';
 import 'package:counter_app/providers/counter_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +11,28 @@ class CounterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // print('build');
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          Consumer(
+            builder: (context, ref, _) => IconButton(
+              icon: const Icon(Icons.logout, color: Colors.white),
+              onPressed: () {
+                ref.read(authProvider.notifier).state = false;
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const LoginPage()),
+                  (route) => false,
+                );
+              },
+              tooltip: 'Logout',
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
+      ),
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
